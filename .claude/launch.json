@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "personalloan-server",
+      "name": "rhb-funnel",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8081"],
-      "port": 8081
+      "runtimeArgs": ["-m", "http.server", "8082"],
+      "port": 8082
     }
   ]
 }
