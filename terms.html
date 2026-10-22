@@ -22,8 +22,10 @@
   }
   .topbar{background:var(--bg);padding:16px 20px;display:flex;align-items:center;gap:12px;}
   .logo-img{height:30px;width:auto;flex-shrink:0;}
-  .topbar-title{font-weight:700;font-size:1rem;}
-  .topbar-sub{color:var(--muted);font-size:.78rem;}
+  .topbar-text{min-width:0;flex:1 1 auto;}
+  .topbar-title{font-weight:700;font-size:.9rem;line-height:1.2;}
+  .topbar-sub{color:var(--muted);font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  @media (max-width:399px){.topbar{padding:12px 12px;gap:8px;} .logo-img{height:20px;} .topbar-title{font-size:.78rem;} .topbar .lang-btn{padding:6px 8px;}}
   .lang-switch{margin-left:auto;display:flex;gap:6px;flex-shrink:0;}
   .lang-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;}
   .lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
@@ -50,8 +52,8 @@
 
 <div class="topbar">
   <img src="assets/RHB_Bank_Berhad_Logo_0.svg" alt="RHB" class="logo-img">
-  <div>
-    <div class="topbar-title">RHB Personal Financing-i &amp; Kad Kredit</div>
+  <div class="topbar-text">
+    <div class="topbar-title">RHB Personal Financing&#8209;i</div>
     <div class="topbar-sub">Guided Calculator</div>
   </div>
   <div class="lang-switch">
