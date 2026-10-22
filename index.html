@@ -159,6 +159,7 @@
   .banker-card .banker-title{color:var(--accent-dark);font-weight:700;font-size:.8rem;letter-spacing:.03em;text-transform:uppercase;margin:0 0 14px;}
   .banker-card .banker-addr{font-size:.85rem;line-height:1.6;color:var(--text);margin:0 0 10px;}
   .banker-card .banker-row{display:flex;gap:8px;font-size:.85rem;line-height:1.6;color:var(--text);}
+  .banker-card .banker-row span:last-child{min-width:0;overflow-wrap:anywhere;}
   .banker-card .banker-label{color:var(--muted);min-width:34px;font-weight:700;}
 
   .headline{text-align:center;margin-bottom:22px;}
@@ -821,12 +822,18 @@ const APPS_SCRIPT_URL = '';
 const APPS_SCRIPT_SUBMIT_TOKEN = '';
 // Optional: banker card shown above the WhatsApp button (hidden while name is '').
 const BANKER = {
-  name: '',
-  title: '',
-  addressLines: [],
-  phone: '',
-  mobile: '',
-  email: '',
+  name: 'Mohd Fathuddin Bin Mohd Fauzi',
+  title: 'Sales Consultant PFi',
+  addressLines: [
+    'RHB Bank Berhad',
+    'Ground Floor, Podium Block, Plaza OSK',
+    'Jalan Ampang, 50450 Kuala Lumpur',
+    'Malaysia',
+  ],
+  phone: '+603 9545 8220',
+  mobile: '+6016 426 3157',
+  email: 'mohd.fathuddin.mohd@rhbgroup.com',
+  website: 'www.rhbgroup.com',
 };
 
 const I18N = {
@@ -2242,7 +2249,7 @@ function renderBanker(){
     <p class="banker-name">${escapeHtml(BANKER.name)}</p>
     <p class="banker-title">${escapeHtml(BANKER.title)}</p>
     ${BANKER.addressLines.length ? `<p class="banker-addr">${BANKER.addressLines.map(escapeHtml).join('<br>')}</p>` : ''}
-    ${row('T', BANKER.phone)}${row('M', BANKER.mobile)}${row('E', BANKER.email)}
+    ${row('T', BANKER.phone)}${row('M', BANKER.mobile)}${row('E', BANKER.email)}${row('W', BANKER.website)}
   `;
   block.style.display = 'block';
 }
