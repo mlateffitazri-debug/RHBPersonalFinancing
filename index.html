@@ -74,7 +74,7 @@
   .fallout-figure{display:block;height:150px;width:auto;margin:0 auto 12px;}
   .notice-figure{display:block;height:120px;width:auto;margin:0 auto 10px;}
   .banker-head{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
-  .banker-avatar{width:64px;height:64px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);object-fit:cover;}
+  .banker-avatar{width:84px;height:84px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);object-fit:cover;}
   .banker-head .banker-title{margin:0;}
   .hero-text{position:relative;z-index:1;width:100%;padding:20px;color:#fff;}
   .hero-eyebrow{color:var(--accent-light);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
@@ -213,8 +213,6 @@
   .card-list .min{color:var(--muted);font-size:.78rem;}
   .card-list li.locked{opacity:.55;}
 
-  .fallout-icon{width:64px;height:64px;margin:0 auto 16px;color:var(--danger);}
-  .fallout-icon svg{width:100%;height:100%;}
 
   .disclaimer{text-align:center;color:var(--muted);font-size:.72rem;max-width:640px;margin:20px auto 0;padding:0 20px;}
   .disclaimer:last-of-type{margin-top:6px;padding-bottom:24px;}
@@ -246,14 +244,23 @@
 
   .card{border:none;border-radius:24px;box-shadow:0 10px 30px rgba(0,46,105,.10);}
 
-  .guide{display:flex;gap:10px;align-items:flex-start;margin-bottom:22px;}
-  .guide-avatar{width:48px;height:48px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);background:var(--panel2);box-shadow:0 3px 8px rgba(0,46,105,.18);}
+  .guide{display:flex;gap:12px;align-items:flex-start;margin-bottom:22px;}
+  .guide-avatar{width:68px;height:68px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);background:var(--panel2);box-shadow:0 3px 8px rgba(0,46,105,.18);}
   .guide-bubble{position:relative;flex:1;min-width:0;background:linear-gradient(150deg, var(--accent) 0%, var(--accent-dark) 100%);color:#fff;border-radius:6px 20px 20px 20px;padding:14px 16px 16px;}
   .guide-bubble .eyebrow{color:var(--accent-light);margin-bottom:6px;}
   .guide-bubble .question{color:#fff;font-size:1.12rem;margin:0 0 6px;}
   .guide-bubble .helptext{color:rgba(255,255,255,.85);font-size:.84rem;margin:0;}
+  @media (max-width:360px){
+    .card{padding:22px 14px;}
+    .guide{gap:10px;}
+    .guide-avatar{width:58px;height:58px;}
+    .guide-bubble{padding:12px 13px 14px;}
+    .guide-bubble .question{font-size:1.02rem;}
+    .banker-avatar{width:68px;height:68px;}
+    .banker-head{gap:12px;}
+  }
   @media (min-width:480px){
-    .guide-avatar{width:56px;height:56px;}
+    .guide-avatar{width:84px;height:84px;}
     .guide-bubble .question{font-size:1.25rem;}
   }
 
@@ -380,7 +387,7 @@
   <div class="step" data-step="1">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s1_eyebrow">Soalan 1 daripada 4</div>
           <p class="question" data-i18n="s1_question">Pilih sektor pekerjaan anda</p>
@@ -425,7 +432,7 @@
   <div class="step" data-step="1a">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" id="s1aEyebrow">Penjawat Awam</div>
           <div id="kerajaanIntro">
@@ -498,7 +505,7 @@
   <div class="step" data-step="2">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s2_eyebrow">Soalan 2 daripada 4</div>
           <p class="question" data-i18n="s2_question">Pilih produk yang anda perlukan</p>
@@ -537,7 +544,7 @@
   <div class="step" data-step="2b">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar-arms.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar-arms.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s2b_eyebrow">Jenis Permohonan</div>
           <p class="question" data-i18n="s2b_question">Pembiayaan baharu atau penyatuan hutang?</p>
@@ -567,7 +574,7 @@
   <div class="step" data-step="3">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar-thinking.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar-thinking.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s3_eyebrow">Soalan 3 daripada 4</div>
           <p class="question" data-i18n="s3_question">Semakan Net Disposable Income (NDI) &amp; DSR</p>
@@ -710,7 +717,7 @@
   <div class="step" data-step="5">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s5_eyebrow">Mohon Sekarang</div>
           <p class="question" data-i18n="s5_question">Mari kita mulakan.</p>
@@ -868,7 +875,7 @@
   <div class="step" data-step="6">
     <div class="card">
       <div class="guide">
-        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="160" height="160">
+        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="256" height="256">
         <div class="guide-bubble">
           <div class="eyebrow" data-i18n="s6_eyebrow">Hampir Selesai</div>
           <p class="question" data-i18n="s6_question">Sediakan Dokumen &amp; Hantar Permohonan</p>

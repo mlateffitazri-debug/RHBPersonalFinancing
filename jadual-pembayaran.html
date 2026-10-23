@@ -130,7 +130,7 @@ const TXT = {
     title:'Jadual Pembayaran Bulanan',
     subtitle:'Anggaran ansuran bulanan berdasarkan jadual promosi rasmi RHB Personal Financing-i. Pilih amaun untuk lihat ansuran mengikut tempoh.',
     amount:'Jumlah pembiayaan', years:'tahun', yr:'thn',
-    eff:'Kadar efektif', flat:'Setara kadar rata', band:'Ikut amaun',
+    eff:'Kadar efektif', flat:'Setara kadar rata', band:'Ikut amaun', product:'Produk',
     tableTitle:'Jadual penuh (RM sebulan)', amountCol:'Amaun',
     notes:{
       'awam-persekutuan':['Angka ialah potongan gaji bulanan termasuk fi kutipan 1.5% (jadual rasmi RHB).','Kadar efektif 5.00% = SBR 2.75% + 2.25%, berubah, kaedah baki berkurangan (daily rest).','Hanya untuk pembiayaan dengan pengambilan takaful GCFT. Kempen sehingga 31 Disember 2026.'],
@@ -145,7 +145,7 @@ const TXT = {
     title:'Monthly Payment Schedule',
     subtitle:'Estimated monthly instalments based on RHB Personal Financing-i official promotional tables. Pick an amount to see the instalment by tenure.',
     amount:'Financing amount', years:'years', yr:'yrs',
-    eff:'Effective rate', flat:'Equivalent flat rate', band:'By amount',
+    eff:'Effective rate', flat:'Equivalent flat rate', band:'By amount', product:'Product',
     tableTitle:'Full table (RM per month)', amountCol:'Amount',
     notes:{
       'awam-persekutuan':['Figures are the monthly salary deduction including the 1.5% collection fee (official RHB table).','5.00% effective = SBR 2.75% + 2.25%, variable, reducing balance (daily rest).','Only for financing with GCFT takaful take-up. Campaign until 31 December 2026.'],
@@ -161,10 +161,11 @@ const params = new URLSearchParams(window.location.search);
 let variant = VARIANTS[params.get('v')] ? params.get('v') : 'awam-persekutuan';
 let lang = params.get('lang') === 'en' ? 'en' : 'ms';
 const embed = params.get('embed') === '1';
+// Embedded in the calculator's popup: the modal already has a title and the
+// applicant's variant is known, so only that variant's schedule is shown.
 if (embed){
   document.body.classList.add('embed');
-  document.getElementById('topbar').style.display = 'none';
-  document.getElementById('backLink').style.display = 'none';
+  ['topbar','backLink','title','variantTabs'].forEach(id => { document.getElementById(id).style.display = 'none'; });
 }
 // If we arrived via a result screen's schedule link, `back` restores that screen.
 // Only same-site relative links are accepted.
@@ -189,6 +190,7 @@ function render(){
     `<button type="button" class="variant-tab ${k===variant?'active':''}" onclick="selectVariant('${k}')">${VARIANTS[k].name[lang]}</button>`).join('');
 
   const chips = [];
+  if (embed) chips.push(`<div class="rate-chip" style="flex-basis:100%;">${t.product}<b>${V.name[lang]}</b></div>`);
   chips.push(`<div class="rate-chip">${t.eff}<b>${V.rate || t.band}</b></div>`);
   if (V.flat) chips.push(`<div class="rate-chip">${t.flat}<b>${V.flat}</b></div>`);
   chips.push(`<div class="rate-chip">${t.amount}<b>${fmtRM(V.min,0)} – ${fmtRM(V.max,0)}</b></div>`);
