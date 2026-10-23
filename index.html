@@ -61,12 +61,21 @@
   .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 20px;box-shadow:0 2px 14px rgba(0,46,105,.06);}
   @media (min-width:400px){.card{padding:28px 24px;}}
 
-  .hero-banner{position:relative;width:100%;height:clamp(320px, 62vh, 480px);border-radius:16px;overflow:hidden;display:flex;align-items:flex-end;}
+  .hero-banner{position:relative;width:100%;height:clamp(420px, 70vh, 520px);border-radius:16px;overflow:hidden;display:flex;align-items:flex-end;
+    background:radial-gradient(circle at 78% 22%, rgba(90,194,231,.55) 0%, rgba(90,194,231,0) 45%), linear-gradient(160deg, #0a7cc4 0%, #0062AE 40%, #002E69 100%);}
   @media (max-width:480px){
-    .hero-banner{height:clamp(460px, 84vh, 620px);}
+    .hero-banner{height:clamp(500px, 84vh, 640px);}
   }
-  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;}
-  .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,22,52,0) 0%, rgba(0,22,52,.3) 45%, rgba(0,26,60,.94) 100%);}
+  .hero-figure{position:absolute;right:-6%;top:14px;height:62%;width:auto;filter:drop-shadow(0 10px 18px rgba(0,20,50,.35));}
+  @media (min-width:481px){.hero-figure{right:2%;top:18px;height:70%;}}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,26,60,0) 38%, rgba(0,26,60,.7) 62%, rgba(0,26,60,.96) 100%);}
+  .pass-row{display:flex;gap:10px;align-items:center;}
+  .pass-figure{width:78px;height:auto;flex-shrink:0;margin:-6px -4px -12px 0;}
+  .fallout-figure{display:block;height:150px;width:auto;margin:0 auto 12px;}
+  .notice-figure{display:block;height:120px;width:auto;margin:0 auto 10px;}
+  .banker-head{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+  .banker-avatar{width:64px;height:64px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);object-fit:cover;}
+  .banker-head .banker-title{margin:0;}
   .hero-text{position:relative;z-index:1;width:100%;padding:20px;color:#fff;}
   .hero-eyebrow{color:var(--accent-light);font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
   .hero-title{font-size:1.25rem;font-weight:800;line-height:1.28;margin:0 0 6px;color:#fff;}
@@ -221,6 +230,66 @@
   .notice-btn{width:100%;background:var(--accent);color:#fff;padding:13px;font-size:.92rem;font-weight:800;border:none;border-radius:10px;cursor:pointer;margin-top:16px;}
   .notice-btn:hover{background:var(--accent-dark);}
   .notice-btn.secondary{background:var(--panel2);color:var(--text);margin-top:10px;}
+
+  /* ==== Design concept: "guided by Fath" — chat-style guide bubble per step,
+     compact answer tiles, pill buttons, soft cards. Overrides the base rules above. ==== */
+  body{background:
+    radial-gradient(circle at 100% 0%, rgba(90,194,231,.22) 0%, rgba(90,194,231,0) 38%),
+    radial-gradient(circle at 0% 100%, rgba(0,98,174,.10) 0%, rgba(0,98,174,0) 40%),
+    var(--bg); background-attachment:fixed;}
+  .topbar{background:rgba(255,255,255,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,46,105,.08);}
+
+  .progress-wrap{padding-top:16px;}
+  .progress-track{height:8px;background:#dfe8f3;border-radius:999px;}
+  .progress-fill{background:linear-gradient(90deg, var(--accent-light), var(--accent));border-radius:999px;}
+  .progress-label{font-weight:700;color:var(--accent-dark);}
+
+  .card{border:none;border-radius:24px;box-shadow:0 10px 30px rgba(0,46,105,.10);}
+
+  .guide{display:flex;gap:10px;align-items:flex-start;margin-bottom:22px;}
+  .guide-avatar{width:48px;height:48px;border-radius:50%;flex-shrink:0;border:2px solid var(--accent-light);background:var(--panel2);box-shadow:0 3px 8px rgba(0,46,105,.18);}
+  .guide-bubble{position:relative;flex:1;min-width:0;background:linear-gradient(150deg, var(--accent) 0%, var(--accent-dark) 100%);color:#fff;border-radius:6px 20px 20px 20px;padding:14px 16px 16px;}
+  .guide-bubble .eyebrow{color:var(--accent-light);margin-bottom:6px;}
+  .guide-bubble .question{color:#fff;font-size:1.12rem;margin:0 0 6px;}
+  .guide-bubble .helptext{color:rgba(255,255,255,.85);font-size:.84rem;margin:0;}
+  @media (min-width:480px){
+    .guide-avatar{width:56px;height:56px;}
+    .guide-bubble .question{font-size:1.25rem;}
+  }
+
+  /* Answer tiles (sector / product) — photo cards become compact rows */
+  .photo-cards{gap:12px;}
+  .photo-card{min-height:0 !important;background-image:none !important;background:var(--panel);border:1.5px solid #d6e2f0;border-radius:18px;display:flex;align-items:center;padding:16px 44px 16px 16px;}
+  .photo-card::after{content:"";position:absolute;right:18px;top:50%;width:10px;height:10px;border-top:2.5px solid var(--accent);border-right:2.5px solid var(--accent);transform:translateY(-50%) rotate(45deg);}
+  .photo-card:hover{transform:none;border-color:var(--accent);box-shadow:0 6px 16px rgba(0,46,105,.10);}
+  .photo-card.selected{border-color:var(--accent);background:var(--tint);box-shadow:0 0 0 3px rgba(0,98,174,.15);}
+  .photo-card-overlay{display:none;}
+  .photo-card-content{display:grid;grid-template-columns:52px 1fr;column-gap:14px;align-items:center;padding:0 !important;max-width:none;width:100%;}
+  .photo-card-content .oc-icon{grid-row:span 2;align-self:center;width:52px;height:52px;margin:0;border-radius:16px;padding:12px;background:linear-gradient(150deg, var(--tint) 0%, #d3e9f7 100%);color:var(--accent);}
+  .photo-card-content h3{font-size:1.02rem !important;margin:0 0 2px;}
+  .photo-card-content p{font-size:.8rem !important;}
+
+  .option-card{border:1.5px solid #d6e2f0;border-radius:16px;background:var(--panel);transition:border-color .15s ease,box-shadow .15s ease;}
+  .option-card:hover{border-color:var(--accent);}
+  .option-card.selected{border-color:var(--accent);background:var(--tint);box-shadow:0 0 0 3px rgba(0,98,174,.15);}
+  .option-group-label{text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;color:var(--muted);}
+
+  /* Inputs */
+  .input-big input, .input-big select, .input-big textarea, select.select-big{border:1.5px solid #cfdcec;border-radius:14px;background:#f8fbfe;}
+  .input-big input:focus, .input-big select:focus, .input-big textarea:focus, select.select-big:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(0,98,174,.12);}
+
+  /* Pill buttons */
+  .btn-primary, .btn-back, .btn-cta, .btn-whatsapp, .notice-btn{border-radius:999px;}
+  .btn-primary{background:linear-gradient(150deg, var(--accent) 0%, var(--accent-dark) 100%);box-shadow:0 6px 16px rgba(0,98,174,.28);}
+  .btn-primary:hover{filter:brightness(1.08);background:linear-gradient(150deg, var(--accent) 0%, var(--accent-dark) 100%);}
+  .btn-back{background:var(--panel);border:1.5px solid #cfdcec;}
+  .btn-cta{background:linear-gradient(150deg, #ff6a4f 0%, var(--flamingo) 100%);}
+
+  .hero-banner{border-radius:24px;box-shadow:0 14px 34px rgba(0,46,105,.25);}
+  .stat{border-radius:16px;background:linear-gradient(150deg, #f4f8fc 0%, var(--panel2) 100%);}
+  details{border:1.5px solid #d6e2f0;border-radius:16px;}
+  .info-box{border-radius:14px;}
+  .banker-card{border:none;border-radius:18px;background:linear-gradient(150deg, var(--tint) 0%, var(--panel2) 100%);}
 </style>
 </head>
 <body>
@@ -250,6 +319,7 @@
      card as the way forward. -->
 <div class="notice-overlay" id="dsrFailOverlay" hidden>
   <div class="notice-card" id="dsrFailQuestionPanel">
+    <img src="assets/fath/arms-crossed.webp" alt="" class="notice-figure" width="327" height="360">
     <p class="notice-title" data-i18n="dsrfail_title">MAAF</p>
     <div class="notice-body" data-i18n="dsrfail_body"></div>
     <button type="button" class="notice-btn" data-i18n="dsrfail_btn_yes" onclick="confirmCreditCardFallback()">Ya, Mohon Kad Kredit RHB</button>
@@ -295,7 +365,7 @@
   <!-- Step 0: Welcome -->
   <div class="step active" data-step="0">
     <div class="hero-banner">
-      <img src="assets/hero.png" alt="RHB Personal Financing-i & Kad Kredit" class="hero-bg">
+      <img src="assets/fath/hero-present.webp" alt="Mohd Fathuddin, Sales Consultant RHB" class="hero-figure" width="681" height="760">
       <div class="hero-overlay"></div>
       <div class="hero-text">
         <div class="hero-eyebrow" data-i18n="s0_eyebrow">Selamat Datang</div>
@@ -309,12 +379,17 @@
   <!-- Step 1: Pilih Sektor -->
   <div class="step" data-step="1">
     <div class="card">
-      <div class="eyebrow" data-i18n="s1_eyebrow">Soalan 1 daripada 4</div>
-      <p class="question" data-i18n="s1_question">Pilih sektor pekerjaan anda</p>
-      <p class="helptext" data-i18n="s1_help">Ini membantu kami tentukan produk dan syarat yang paling sesuai untuk anda.</p>
+      <div class="guide">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s1_eyebrow">Soalan 1 daripada 4</div>
+          <p class="question" data-i18n="s1_question">Pilih sektor pekerjaan anda</p>
+          <p class="helptext" data-i18n="s1_help">Ini membantu kami tentukan produk dan syarat yang paling sesuai untuk anda.</p>
+        </div>
+      </div>
 
       <div class="photo-cards" id="sectorCards">
-        <div class="photo-card" data-val="kerajaan" onclick="selectSector('kerajaan')" style="background-image:url('assets/sector-kerajaan.png');">
+        <div class="photo-card" data-val="kerajaan" onclick="selectSector('kerajaan')">
           <div class="photo-card-overlay"></div>
           <div class="photo-card-content">
             <div class="oc-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7v2h20V7L12 2zM4 11v8H2v2h20v-2h-2v-8h-2v8h-3v-8h-2v8h-3v-8H8v8H6v-8H4z"/></svg></div>
@@ -322,7 +397,7 @@
             <p data-i18n="sector_kerajaan_desc">Kerajaan Persekutuan, Negeri &amp; GLC terpilih</p>
           </div>
         </div>
-        <div class="photo-card" data-val="pesara" onclick="selectSector('pesara')" style="background-image:linear-gradient(120deg, #ffffff 30%, #5AC2E7 100%);">
+        <div class="photo-card" data-val="pesara" onclick="selectSector('pesara')">
           <div class="photo-card-overlay"></div>
           <div class="photo-card-content">
             <div class="oc-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 100 8 4 4 0 000-8zm-6 18v-2c0-2.7 3.6-4.5 6-4.5s6 1.8 6 4.5v2H6zm12.5-9.5l1.5 1.5 3-3-1.1-1.1-1.9 1.9-.4-.4-1.1 1.1z"/></svg></div>
@@ -330,7 +405,7 @@
             <p data-i18n="sector_pesara_desc">Pesara Kerajaan &amp; Pesara Tentera</p>
           </div>
         </div>
-        <div class="photo-card" data-val="swasta" onclick="selectSector('swasta')" style="background-image:url('assets/sector-swasta.png');">
+        <div class="photo-card" data-val="swasta" onclick="selectSector('swasta')">
           <div class="photo-card-overlay"></div>
           <div class="photo-card-content">
             <div class="oc-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 100 10 5 5 0 000-10zm0 12c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z"/></svg></div>
@@ -349,11 +424,22 @@
   <!-- Step 1a: Butiran sektor (Penjawat Awam / Pesara) -->
   <div class="step" data-step="1a">
     <div class="card">
-      <div class="eyebrow" id="s1aEyebrow">Penjawat Awam</div>
+      <div class="guide">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" id="s1aEyebrow">Penjawat Awam</div>
+          <div id="kerajaanIntro">
+            <p class="question" data-i18n="s1a_k_question">Butiran majikan anda</p>
+            <p class="helptext" data-i18n="s1a_k_help">Kadar keuntungan bergantung pada jenis majikan, manakala syarat kelayakan bergantung pada saluran potongan gaji.</p>
+          </div>
+          <div id="pesaraIntro">
+            <p class="question" data-i18n="s1a_p_question">Jenis pencen anda</p>
+            <p class="helptext" data-i18n="s1a_p_help">Pembiayaan untuk pesara kerajaan dan tentera yang menerima pencen bulanan.</p>
+          </div>
+        </div>
+      </div>
 
       <div id="kerajaanDetail">
-        <p class="question" data-i18n="s1a_k_question">Butiran majikan anda</p>
-        <p class="helptext" data-i18n="s1a_k_help">Kadar keuntungan bergantung pada jenis majikan, manakala syarat kelayakan bergantung pada saluran potongan gaji.</p>
 
         <div class="option-group-label" data-i18n="s1a_k_employer">Jenis majikan</div>
         <div class="option-cards cols-2" id="employerCards">
@@ -383,8 +469,6 @@
       </div>
 
       <div id="pesaraDetail">
-        <p class="question" data-i18n="s1a_p_question">Jenis pencen anda</p>
-        <p class="helptext" data-i18n="s1a_p_help">Pembiayaan untuk pesara kerajaan dan tentera yang menerima pencen bulanan.</p>
         <div class="option-cards" id="pensionCards">
           <div class="option-card" data-val="perkhidmatan" onclick="selectPensionType('perkhidmatan')">
             <h3 data-i18n="pen_perkhidmatan_title">Pencen Perkhidmatan</h3>
@@ -413,14 +497,19 @@
   <!-- Step 2: Pilih Produk -->
   <div class="step" data-step="2">
     <div class="card">
-      <div class="eyebrow" data-i18n="s2_eyebrow">Soalan 2 daripada 4</div>
-      <p class="question" data-i18n="s2_question">Pilih produk yang anda perlukan</p>
-      <p class="helptext" data-i18n="s2_help">Tak pasti mana nak pilih? Pilih Personal Financing-i — jika tidak layak, kami akan cadangkan Kad Kredit secara automatik.</p>
+      <div class="guide">
+        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s2_eyebrow">Soalan 2 daripada 4</div>
+          <p class="question" data-i18n="s2_question">Pilih produk yang anda perlukan</p>
+          <p class="helptext" data-i18n="s2_help">Tak pasti mana nak pilih? Pilih Personal Financing-i — jika tidak layak, kami akan cadangkan Kad Kredit secara automatik.</p>
+        </div>
+      </div>
 
       <div id="productWarning"></div>
 
       <div class="photo-cards" id="productCards">
-        <div class="photo-card" data-val="pinjaman" onclick="selectProduct('pinjaman')" style="background-image:url('assets/product-pinjaman.png');">
+        <div class="photo-card" data-val="pinjaman" onclick="selectProduct('pinjaman')">
           <div class="photo-card-overlay"></div>
           <div class="photo-card-content">
             <div class="oc-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.910 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
@@ -428,7 +517,7 @@
             <p data-i18n="product_loan_desc">Pembiayaan peribadi tunai sekali gus</p>
           </div>
         </div>
-        <div class="photo-card" data-val="kredit" onclick="selectProduct('kredit')" style="background-image:linear-gradient(120deg, #ffffff 30%, #002E69 100%);">
+        <div class="photo-card" data-val="kredit" onclick="selectProduct('kredit')">
           <div class="photo-card-overlay"></div>
           <div class="photo-card-content">
             <div class="oc-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>
@@ -447,9 +536,14 @@
   <!-- Step 2b: Pinjaman baharu / Penyatuan hutang -->
   <div class="step" data-step="2b">
     <div class="card">
-      <div class="eyebrow" data-i18n="s2b_eyebrow">Jenis Permohonan</div>
-      <p class="question" data-i18n="s2b_question">Pembiayaan baharu atau penyatuan hutang?</p>
-      <p class="helptext" data-i18n="s2b_help">Penyatuan hutang menggabungkan hutang sedia ada ke dalam satu bayaran bulanan. Anda akan senaraikan hutang tersebut pada langkah seterusnya.</p>
+      <div class="guide">
+        <img src="assets/fath/avatar-arms.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s2b_eyebrow">Jenis Permohonan</div>
+          <p class="question" data-i18n="s2b_question">Pembiayaan baharu atau penyatuan hutang?</p>
+          <p class="helptext" data-i18n="s2b_help">Penyatuan hutang menggabungkan hutang sedia ada ke dalam satu bayaran bulanan. Anda akan senaraikan hutang tersebut pada langkah seterusnya.</p>
+        </div>
+      </div>
 
       <div class="option-cards cols-2" id="debtConsolCards">
         <div class="option-card selected" data-val="no" onclick="selectDebtConsolidation(false)">
@@ -472,9 +566,14 @@
   <!-- Step 3: DSR/NDI Calculator -->
   <div class="step" data-step="3">
     <div class="card">
-      <div class="eyebrow" data-i18n="s3_eyebrow">Soalan 3 daripada 4</div>
-      <p class="question" data-i18n="s3_question">Semakan Net Disposable Income (NDI) &amp; DSR</p>
-      <p class="helptext" data-i18n="s3_help">Masukkan pendapatan dan komitmen bulanan anda untuk semakan pra-kelayakan.</p>
+      <div class="guide">
+        <img src="assets/fath/avatar-thinking.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s3_eyebrow">Soalan 3 daripada 4</div>
+          <p class="question" data-i18n="s3_question">Semakan Net Disposable Income (NDI) &amp; DSR</p>
+          <p class="helptext" data-i18n="s3_help">Masukkan pendapatan dan komitmen bulanan anda untuk semakan pra-kelayakan.</p>
+        </div>
+      </div>
 
       <div class="info-box" data-i18n="ccris_ctos_disclaimer"></div>
 
@@ -550,7 +649,7 @@
   <!-- Step 3b: Credit Card alternative (reached via the link on a PreFail result) -->
   <div class="step" data-step="3b">
     <div class="card">
-      <div class="fallout-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
+      <img src="assets/fath/arms-crossed.webp" alt="" class="fallout-figure" width="327" height="360">
       <p class="question" style="text-align:center;" data-i18n="s3b_question">Maafkan Kami</p>
       <p class="helptext" style="text-align:center;" id="falloutHelpText"></p>
       <p class="helptext" style="text-align:center;" data-i18n="s3b_help2">Adakah anda berminat untuk memohon Kad Kredit RHB sebagai alternatif?</p>
@@ -610,9 +709,14 @@
   <!-- Step 5: Full application form -->
   <div class="step" data-step="5">
     <div class="card">
-      <div class="eyebrow" data-i18n="s5_eyebrow">Mohon Sekarang</div>
-      <p class="question" data-i18n="s5_question">Mari kita mulakan.</p>
-      <p class="helptext" data-i18n="s5_help">Lengkapkan maklumat di bawah. Medan bertanda * wajib diisi.</p>
+      <div class="guide">
+        <img src="assets/fath/avatar.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s5_eyebrow">Mohon Sekarang</div>
+          <p class="question" data-i18n="s5_question">Mari kita mulakan.</p>
+          <p class="helptext" data-i18n="s5_help">Lengkapkan maklumat di bawah. Medan bertanda * wajib diisi.</p>
+        </div>
+      </div>
       <label class="consent-row" style="opacity:.8;">
         <input type="checkbox" checked disabled>
         <span id="leadSectorConfirm"></span>
@@ -763,9 +867,14 @@
   <!-- Step 6: Document checklist (+ optional upload form) + WhatsApp handoff -->
   <div class="step" data-step="6">
     <div class="card">
-      <div class="eyebrow" data-i18n="s6_eyebrow">Hampir Selesai</div>
-      <p class="question" data-i18n="s6_question">Sediakan Dokumen &amp; Hantar Permohonan</p>
-      <p class="helptext" id="s6Help"></p>
+      <div class="guide">
+        <img src="assets/fath/avatar-thumbsup.webp" alt="" class="guide-avatar" width="160" height="160">
+        <div class="guide-bubble">
+          <div class="eyebrow" data-i18n="s6_eyebrow">Hampir Selesai</div>
+          <p class="question" data-i18n="s6_question">Sediakan Dokumen &amp; Hantar Permohonan</p>
+          <p class="helptext" id="s6Help"></p>
+        </div>
+      </div>
 
       <div id="leadSummaryBox" class="info-box" style="background:var(--panel2);color:var(--text);border-color:var(--border);"></div>
 
@@ -841,6 +950,7 @@ const BANKER = {
   mobile: '+6016 426 3157',
   email: 'mohd.fathuddin.mohd@rhbgroup.com',
   website: 'www.rhbgroup.com',
+  photo: 'assets/fath/avatar.webp',
 };
 
 const I18N = {
@@ -1640,6 +1750,8 @@ function renderSectorDetail(){
   document.getElementById('s1aEyebrow').textContent = SECTOR_LOAN_DATA[state.sector].label[lang];
   document.getElementById('kerajaanDetail').style.display = isK ? 'block' : 'none';
   document.getElementById('pesaraDetail').style.display = isK ? 'none' : 'block';
+  document.getElementById('kerajaanIntro').style.display = isK ? 'block' : 'none';
+  document.getElementById('pesaraIntro').style.display = isK ? 'none' : 'block';
   document.querySelectorAll('#employerCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.employer));
   document.querySelectorAll('#channelCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.channel));
   document.querySelectorAll('#pensionCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.pensionType));
@@ -2012,8 +2124,11 @@ function renderLoanResult(){
   const isPass = state.dsrStatus === 'PrePass';
   document.getElementById('ndiPanel').innerHTML = `
     <div class="info-box" style="${isPass ? '' : 'background:var(--warnbg);border-color:#f2c4b8;'}">
-      <div style="font-weight:800;font-size:.95rem;margin-bottom:6px;color:${isPass ? 'var(--accent2)' : 'var(--danger)'};">
-        ${isPass ? T().dsr_status_prepass : T().dsr_status_prefail}
+      <div class="pass-row">
+        <div style="flex:1;font-weight:800;font-size:.95rem;margin-bottom:6px;color:${isPass ? 'var(--accent2)' : 'var(--danger)'};">
+          ${isPass ? T().dsr_status_prepass : T().dsr_status_prefail}
+        </div>
+        ${isPass ? '<img src="assets/fath/thumbsup.webp" alt="" class="pass-figure" width="395" height="360">' : ''}
       </div>
       <div class="result-item"><span class="result-label">${T().stat_ndi}</span><span class="result-value">${fmtRM(state.ndi)}</span></div>
       <div class="result-item"><span class="result-label">${T().stat_dsr_pct}</span><span class="result-value">${state.dsrPercent}%</span></div>
@@ -2253,8 +2368,13 @@ function renderBanker(){
   if (!BANKER.name){ block.style.display = 'none'; return; }
   const row = (label, value) => value ? `<div class="banker-row"><span class="banker-label">${label}</span><span>${escapeHtml(value)}</span></div>` : '';
   document.getElementById('bankerCard').innerHTML = `
-    <p class="banker-name">${escapeHtml(BANKER.name)}</p>
-    <p class="banker-title">${escapeHtml(BANKER.title)}</p>
+    <div class="banker-head">
+      ${BANKER.photo ? `<img src="${BANKER.photo}" alt="" class="banker-avatar" width="64" height="64">` : ''}
+      <div>
+        <p class="banker-name">${escapeHtml(BANKER.name)}</p>
+        <p class="banker-title">${escapeHtml(BANKER.title)}</p>
+      </div>
+    </div>
     ${BANKER.addressLines.length ? `<p class="banker-addr">${BANKER.addressLines.map(escapeHtml).join('<br>')}</p>` : ''}
     ${row('T', BANKER.phone)}${row('M', BANKER.mobile)}${row('E', BANKER.email)}${row('W', BANKER.website)}
   `;

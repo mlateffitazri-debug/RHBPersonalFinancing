@@ -1,0 +1,5 @@
+# Source photos — the site uses the optimised copies in assets/fath/
+assets/*.psd
+assets/Fath.png
+assets/[0-9].png
+assets/Screenshot*
