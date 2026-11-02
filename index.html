@@ -5,7 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer">
 <title>RHB Personal Financing-i & Kad Kredit</title>
-<link rel="icon" href="assets/RHB_Bank_Berhad_Logo_0.svg" type="image/svg+xml">
+<meta name="description" content="Semak pra-kelayakan RHB Personal Financing-i untuk Penjawat Awam, Pesara dan Sektor Swasta, atau mohon Kad Kredit RHB — kurang 10 minit, percuma.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RHB Personal Financing-i">
+<meta property="og:title" content="Semak Kelayakan Pembiayaan Peribadi RHB">
+<meta property="og:description" content="Semak pra-kelayakan RHB Personal Financing-i untuk Penjawat Awam, Pesara dan Sektor Swasta, atau mohon Kad Kredit RHB — kurang 10 minit, percuma.">
+<meta property="og:url" content="https://rhb.fathfauzi.com/">
+<meta property="og:image" content="https://rhb.fathfauzi.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#002E69">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -270,6 +282,7 @@
   .photo-card::after{content:"";position:absolute;right:18px;top:50%;width:10px;height:10px;border-top:2.5px solid var(--accent);border-right:2.5px solid var(--accent);transform:translateY(-50%) rotate(45deg);}
   .photo-card:hover{transform:none;border-color:var(--accent);box-shadow:0 6px 16px rgba(0,46,105,.10);}
   .photo-card.selected{border-color:var(--accent);background:var(--tint);box-shadow:0 0 0 3px rgba(0,98,174,.15);}
+  .photo-card:focus-visible, .option-card:focus-visible, .lang-btn:focus-visible{outline:3px solid var(--accent-light);outline-offset:2px;}
   .photo-card-overlay{display:none;}
   .photo-card-content{display:grid;grid-template-columns:52px 1fr;column-gap:14px;align-items:center;padding:0 !important;max-width:none;width:100%;}
   .photo-card-content .oc-icon{grid-row:span 2;align-self:center;width:52px;height:52px;margin:0;border-radius:16px;padding:12px;background:linear-gradient(150deg, var(--tint) 0%, #d3e9f7 100%);color:var(--accent);}
@@ -606,7 +619,7 @@
       <p class="helptext" style="margin-bottom:10px;" data-i18n="lbl_otherIncome_help">Hanya isi jika anda mempunyai BUKTI (cth. penyata bank, resit komisen). Jangan masukkan pendapatan tanpa bukti.</p>
       <div class="input-big has-prefix"><span class="prefix">RM</span><input type="number" id="q_otherIncome" min="0" step="50" placeholder="0.00"></div>
 
-      <label class="field-label" data-i18n="lbl_epf">Potongan Statutori — KWSP/PERKESO/PCB/Zakat (RM)</label>
+      <label class="field-label" id="lblEpf">Potongan Statutori — KWSP/PERKESO/PCB/Zakat (RM)</label>
       <div class="input-big has-prefix"><span class="prefix">RM</span><input type="number" id="q_epf" min="0" step="10" placeholder="0.00"></div>
 
       <label class="field-label" id="lblPayslipDeduction">Jumlah Keseluruhan Potongan Dalam Payslip (RM)</label>
@@ -940,7 +953,7 @@ const WA_NUMBER = '60164263157';
 // the applicant then just ticks consent and sends via WhatsApp).
 const UPLOAD_FORM_BASE = '';
 const UPLOAD_FORM_NAME_ENTRY_ID = '';
-// Optional: Apps Script Web App that logs each application (google-apps-script/applications-log.gs).
+// Optional: Apps Script Web App that logs each application to a Google Sheet.
 const APPS_SCRIPT_URL = '';
 const APPS_SCRIPT_SUBMIT_TOKEN = '';
 // Optional: banker card shown above the WhatsApp button (hidden while name is '').
@@ -1030,6 +1043,7 @@ const I18N = {
     lbl_otherIncome: "Pendapatan Sampingan Bulanan (RM)",
     lbl_otherIncome_help: "Hanya isi jika anda mempunyai BUKTI (cth. penyata bank, resit komisen). Jangan masukkan pendapatan tanpa bukti.",
     lbl_epf: "Potongan Statutori — KWSP/PERKESO/PCB/Zakat (RM)",
+    lbl_epf_pesara: "Potongan Statutori — PCB/Zakat (RM)",
     lbl_payslipDeduction: "Jumlah Keseluruhan Potongan Dalam Payslip (RM)",
     lbl_payslipDeduction_pesara: "Jumlah Keseluruhan Potongan Dalam Penyata Pencen (RM)",
     lbl_payslipDeduction_help: "Termasuk potongan statutori di atas + potongan lain (cth. pinjaman sedia ada melalui potongan gaji / Angkasa).",
@@ -1056,8 +1070,9 @@ const I18N = {
     warn_fill_age: "Sila isi umur anda.",
     warn_fill_income: "Sila isi pendapatan bulanan anda.",
     warn_fill_loan: "Sila isi jumlah pembiayaan dan tempoh yang dipohon.",
-    warn_amount_range: (min,max)=>`Jumlah pembiayaan untuk pendapatan anda mestilah antara ${min} dan ${max}.`,
-    warn_tenure_range: (min,max)=>`Tempoh pembiayaan berdasarkan umur anda mestilah antara ${min} dan ${max} tahun.`,
+    warn_amount_range: (min,max)=>`Jumlah pembiayaan yang layak untuk anda mestilah antara ${min} dan ${max}.`,
+    warn_tenure_range: (min,max)=> min===max ? `Berdasarkan umur anda, tempoh pembiayaan mestilah ${min} tahun.` : `Berdasarkan umur anda, tempoh pembiayaan mestilah antara ${min} dan ${max} tahun.`,
+    warn_epf_too_high: "Potongan statutori tidak boleh sama atau melebihi jumlah pendapatan. Sila semak semula.",
     dsr_status_prepass: "PrePass — Layak Untuk Semakan Lanjut",
     dsr_status_prefail: "PreFail — Tidak Melepasi Saringan Kredit untuk Pembiayaan",
     stat_ndi: "Net Disposable Income (NDI)",
@@ -1252,6 +1267,7 @@ const I18N = {
     lbl_otherIncome: "Monthly Side Income (RM)",
     lbl_otherIncome_help: "Only fill this in if you have PROOF (e.g. bank statement, commission receipts). Do not include unproven income.",
     lbl_epf: "Statutory Deductions — EPF/SOCSO/PCB/Zakat (RM)",
+    lbl_epf_pesara: "Statutory Deductions — PCB/Zakat (RM)",
     lbl_payslipDeduction: "Total Deductions in Payslip (RM)",
     lbl_payslipDeduction_pesara: "Total Deductions in Pension Statement (RM)",
     lbl_payslipDeduction_help: "Including the statutory deductions above + other deductions (e.g. existing financing via salary deduction / Angkasa).",
@@ -1278,8 +1294,9 @@ const I18N = {
     warn_fill_age: "Please enter your age.",
     warn_fill_income: "Please enter your monthly income.",
     warn_fill_loan: "Please enter the financing amount and tenure applied.",
-    warn_amount_range: (min,max)=>`The financing amount for your income must be between ${min} and ${max}.`,
-    warn_tenure_range: (min,max)=>`Based on your age, the financing tenure must be between ${min} and ${max} years.`,
+    warn_amount_range: (min,max)=>`The financing amount available to you must be between ${min} and ${max}.`,
+    warn_tenure_range: (min,max)=> min===max ? `Based on your age, the financing tenure must be ${min} years.` : `Based on your age, the financing tenure must be between ${min} and ${max} years.`,
+    warn_epf_too_high: "Statutory deductions cannot equal or exceed your total income. Please check again.",
     dsr_status_prepass: "PrePass — Eligible For Further Review",
     dsr_status_prefail: "PreFail — Did Not Pass the Financing Credit Screening",
     stat_ndi: "Net Disposable Income (NDI)",
@@ -1528,7 +1545,7 @@ const SECTOR_LOAN_DATA = {
       ms: [
         'Pesara Kerajaan atau Pesara Tentera yang menerima pencen bulanan',
         'Pencen Perkhidmatan atau Pencen Terbitan (Pencen Hilang Upaya tidak layak)',
-        'Berumur 40 hingga 67 tahun; tempoh tamat sebelum umur 70 tahun (mana lebih awal)',
+        'Berumur 40 hingga 67 tahun; pembiayaan mesti tamat selewat-lewatnya pada umur 70 tahun',
         'Pembiayaan RM5,000 sehingga RM150,000',
         'Tempoh 3 hingga 10 tahun',
         'Bayaran melalui potongan / arahan tetap (SI) dari akaun simpanan RHB yang menerima pencen, atau pindahan dari bank lain ke RHB',
@@ -1538,7 +1555,7 @@ const SECTOR_LOAN_DATA = {
       en: [
         'Government or Armed Forces pensioners receiving a monthly pension',
         'Service Pension or Derivative Pension (Disability Pension is not eligible)',
-        'Aged 40 to 67; tenure must end before age 70 (whichever is earlier)',
+        'Aged 40 to 67; financing must end by age 70 at the latest',
         'Financing from RM5,000 up to RM150,000',
         'Tenure of 3 to 10 years',
         'Payment via deduction / standing instruction (SI) from the RHB savings account receiving the pension, or transfer from another bank to RHB',
@@ -1656,7 +1673,7 @@ function tenureRangeForAge(sector, age){
 function ageRuleLabel(sector){
   const d = SECTOR_LOAN_DATA[sector];
   if (sector === 'kerajaan') return lang==='ms' ? `${d.minAge}–${d.maxEndAge} tahun semasa tamat` : `${d.minAge}–${d.maxEndAge} at maturity`;
-  if (sector === 'pesara') return lang==='ms' ? `${d.minAge}–${d.maxAge} tahun, tamat sebelum ${d.maxEndAge}` : `${d.minAge}–${d.maxAge}, ending before ${d.maxEndAge}`;
+  if (sector === 'pesara') return lang==='ms' ? `${d.minAge}–${d.maxAge} tahun, tamat selewat-lewatnya umur ${d.maxEndAge}` : `${d.minAge}–${d.maxAge}, ending by age ${d.maxEndAge}`;
   return lang==='ms' ? `${d.minAge}–${d.maxAge} tahun` : `${d.minAge}–${d.maxAge}`;
 }
 
@@ -1841,6 +1858,7 @@ function applySectorLabels(){
   const t = T();
   document.getElementById('lblBasicSalary').textContent = p ? t.lbl_basicSalary_pesara : t.lbl_basicSalary;
   document.getElementById('lblFixedAllowance').textContent = p ? t.lbl_fixedAllowance_pesara : t.lbl_fixedAllowance;
+  document.getElementById('lblEpf').textContent = p ? t.lbl_epf_pesara : t.lbl_epf;
   document.getElementById('lblPayslipDeduction').textContent = p ? t.lbl_payslipDeduction_pesara : t.lbl_payslipDeduction;
   document.getElementById('secEmployerTitle').textContent = p ? t.s5_sec_employer_pesara : t.s5_sec_employer;
   document.getElementById('lblEmpName').textContent = p ? t.lbl_empName_pesara : t.lbl_empName;
@@ -1870,7 +1888,7 @@ function applySectorLabels(){
 
 // ---- Step 3: NDI (Net Disposable Income) & DSR check ----
 //
-// Ported from calculation.lateffitazri.my's internal engine (formulas + 1-year-ahead
+// Ported from the internal NDI/DSR calculator engine (formulas + 1-year-ahead
 // stress test against a household/area-based minimum expenditure floor). Only the
 // generic NDI/DSR/stress-test math is reused; the instalment itself comes from
 // RHB's own payment tables via rhbInstalment() in rhb-rates.js.
@@ -1929,7 +1947,8 @@ function updateDebtConsolSummary(){
 }
 
 function checkDSRNDI(){
-  const num = id => parseFloat(document.getElementById(id).value) || 0;
+  // Negative entries are treated as zero, and the tenure is a whole number of years.
+  const num = id => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
   const age = num('q_age');
   const dependents = num('q_dependents');
   const area = document.getElementById('q_area').value;
@@ -1943,11 +1962,13 @@ function checkDSRNDI(){
   const tabungHaji = num('q_tabungHaji');
   const loanAmount = num('q_loanAmount');
   const loanTenure = Math.round(num('q_loanTenure'));
+  if (loanTenure) document.getElementById('q_loanTenure').value = loanTenure;
   const warn = msg => { document.getElementById('dsrWarning').innerHTML = `<div class="warn-box">${msg}</div>`; };
 
   const grossBase = basicSalary + fixedAllowance + otherIncome;
   if (age<=0) return warn(T().warn_fill_age);
   if (grossBase<=0) return warn(T().warn_fill_income);
+  if (epf >= grossBase) return warn(T().warn_epf_too_high);
   if (loanAmount<=0 || loanTenure<=0) return warn(T().warn_fill_loan);
 
   const sector = state.sector;
@@ -2514,6 +2535,18 @@ function restoreFromQuery(){
   return true;
 }
 
+// Clickable cards, tiles and language buttons are divs: make them reachable and
+// operable from the keyboard (Tab, then Enter or Space).
+function enableKeyboardActivation(){
+  document.querySelectorAll('.photo-card, .option-card, .lang-btn').forEach(el=>{
+    el.setAttribute('role','button');
+    el.setAttribute('tabindex','0');
+    el.addEventListener('keydown', e=>{
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); el.click(); }
+    });
+  });
+}
+
 const NOTICE_ACK_KEY = 'rhb_notice_ack_v1';
 function dismissNotice(){
   try { localStorage.setItem(NOTICE_ACK_KEY, '1'); } catch (e){ /* storage unavailable */ }
@@ -2525,6 +2558,7 @@ function showNoticeIfNeeded(){
   if (!acked) document.getElementById('noticeOverlay').hidden = false;
 }
 
+enableKeyboardActivation();
 setLanguage(lang);
 restoreFromQuery();
 showNoticeIfNeeded();
