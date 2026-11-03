@@ -122,12 +122,9 @@
 <script src="rhb-rates.js"></script>
 <script>
 const VARIANTS = {
-  'awam-persekutuan': {min:2000, max:300000, tenures:[2,3,4,5,6,7,8,9,10], tableStep:10000,
-    name:{ms:'Sektor Awam — Kerajaan Persekutuan (SPFP36)', en:'Civil Sector — Federal Government (SPFP36)'},
+  'awam': {min:2000, max:300000, tenures:[2,3,4,5,6,7,8,9,10], tableStep:10000,
+    name:{ms:'Penjawat Awam (Kerajaan, GLC & Badan Berkanun)', en:'Civil Servants (Government, GLC & Statutory Bodies)'},
     rate:'5.00%', flat:'2.63% – 2.73%'},
-  'awam-negeri': {min:2000, max:300000, tenures:[2,3,4,5,6,7,8,9,10], tableStep:10000,
-    name:{ms:'Sektor Awam — Kerajaan Negeri / GLC (SPFP37)', en:'Civil Sector — State Govt / GLC (SPFP37)'},
-    rate:'6.50%', flat:null},
   'pesara': {min:5000, max:150000, tenures:[3,4,5,6,7,8,9,10], tableStep:5000,
     name:{ms:'Pesara', en:'Pensioners'},
     rate:'7.15%', flat:'3.80% – 4.03%'},
@@ -145,8 +142,7 @@ const TXT = {
     eff:'Kadar efektif', flat:'Setara kadar rata', band:'Ikut amaun', product:'Produk',
     tableTitle:'Jadual penuh (RM sebulan)', amountCol:'Amaun',
     notes:{
-      'awam-persekutuan':['Angka ialah potongan gaji bulanan termasuk fi kutipan 1.5% (jadual rasmi RHB).','Kadar efektif 5.00% = SBR 2.75% + 2.25%, berubah, kaedah baki berkurangan (daily rest).','Hanya untuk pembiayaan dengan pengambilan takaful GCFT. Kempen sehingga 31 Disember 2026.'],
-      'awam-negeri':['Kadar efektif 6.50% untuk tempoh 2 hingga 10 tahun.','Tiada jadual rasmi diterbitkan — angka ialah anggaran termasuk fi kutipan 1.5%.','Hanya untuk pembiayaan dengan pengambilan takaful GCFT.'],
+      'awam':['Angka ialah potongan gaji bulanan termasuk fi kutipan 1.5% (jadual rasmi RHB).','Kadar efektif 5.00% = SBR 2.75% + 2.25%, berubah, kaedah baki berkurangan (daily rest).','Hanya untuk pembiayaan dengan pengambilan takaful GCFT. Kempen sehingga 31 Disember 2026.'],
       'pesara':['Kadar efektif 7.15%, berubah, kaedah baki berkurangan.','Hanya untuk pembiayaan dengan pengambilan takaful GCFT.','Bayaran melalui auto debit daripada akaun pencen RHB.'],
       'swasta':['Kadar efektif ikut amaun: RM2k–15k 24%, RM16k–50k 20%, RM51k–99k 17%, RM100k–150k 14%.','Berdasarkan pengambilan takaful GCFT / Personal Smart Shield (PSS).','Bayaran melalui auto debit CASA atau pembayaran elektronik.'],
     },
@@ -160,8 +156,7 @@ const TXT = {
     eff:'Effective rate', flat:'Equivalent flat rate', band:'By amount', product:'Product',
     tableTitle:'Full table (RM per month)', amountCol:'Amount',
     notes:{
-      'awam-persekutuan':['Figures are the monthly salary deduction including the 1.5% collection fee (official RHB table).','5.00% effective = SBR 2.75% + 2.25%, variable, reducing balance (daily rest).','Only for financing with GCFT takaful take-up. Campaign until 31 December 2026.'],
-      'awam-negeri':['6.50% effective rate for 2 to 10 year tenures.','No official table is published — figures are estimates including the 1.5% collection fee.','Only for financing with GCFT takaful take-up.'],
+      'awam':['Figures are the monthly salary deduction including the 1.5% collection fee (official RHB table).','5.00% effective = SBR 2.75% + 2.25%, variable, reducing balance (daily rest).','Only for financing with GCFT takaful take-up. Campaign until 31 December 2026.'],
       'pesara':['7.15% effective rate, variable, reducing balance.','Only for financing with GCFT takaful take-up.','Payment via auto debit from the RHB pension account.'],
       'swasta':['Effective rate by amount: RM2k–15k 24%, RM16k–50k 20%, RM51k–99k 17%, RM100k–150k 14%.','Based on GCFT / Personal Smart Shield (PSS) takaful take-up.','Payment via CASA auto debit or electronic payment.'],
     },
@@ -170,7 +165,10 @@ const TXT = {
 };
 
 const params = new URLSearchParams(window.location.search);
-let variant = VARIANTS[params.get('v')] ? params.get('v') : 'awam-persekutuan';
+// Older links used separate federal / state-GLC variants; both are now the 5% civil table.
+const LEGACY_VARIANTS = {'awam-persekutuan':'awam', 'awam-negeri':'awam'};
+const requested = LEGACY_VARIANTS[params.get('v')] || params.get('v');
+let variant = VARIANTS[requested] ? requested : 'awam';
 let lang = params.get('lang') === 'en' ? 'en' : 'ms';
 const embed = params.get('embed') === '1';
 // Embedded in the calculator's popup: the modal already has a title and the
@@ -185,7 +183,7 @@ const backParam = params.get('back');
 if (backParam && /^index\.html(\?|$)/.test(backParam)) document.getElementById('backLink').href = backParam;
 
 const fmtRM = (n, dp) => 'RM ' + n.toLocaleString('en-MY', {minimumFractionDigits:dp, maximumFractionDigits:dp});
-const dpFor = v => v.startsWith('awam') ? 2 : 0;
+const dpFor = v => v === 'awam' ? 2 : 0;
 
 function render(){
   const t = TXT[lang], V = VARIANTS[variant];

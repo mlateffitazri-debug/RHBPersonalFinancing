@@ -5,13 +5,14 @@
 // - Civil Sector: "Payment Table PF-i for Civil Sector promo wGCFT (SPFP36/SPFP37)",
 //   5.00% effective (SBR 2.75% + 2.25%), amounts INCLUDE the 1.5% monthly
 //   collection fee, GCFT take-up only, campaign until 31 Dec 2026.
-// - State Govt / selected GLC: 6.50% effective (no official table published).
+// - The same 5.00% table applies to all civil servants — federal/state government
+//   and GLC/statutory bodies (confirmed by the RHB banker).
 // - Pensioners: payment table promo FY2025/2026, 7.15% effective.
 // - Private Sector: payment table promo FY2025/2026, effective rate by amount band.
 
 const RHB_SBR = 2.75;
 
-// Monthly salary deduction for Federal civil servants (SPFP36), RM2,000 to
+// Monthly salary deduction for civil servants (SPFP36 / SPFP37), RM2,000 to
 // RM300,000 in RM1,000 steps; columns are tenures 2..10 years.
 const CIVIL_TABLE_MIN = 2000, CIVIL_TABLE_STEP = 1000;
 const CIVIL_TABLE_TENURES = [2,3,4,5,6,7,8,9,10];
@@ -345,21 +346,13 @@ function civilTableInstalment(amount, tenureYears){
   return row[col];
 }
 
-// Collection-fee multiplier implied by the civil table (5% annuity vs table,
-// ~1.0153 across all large amounts). Used to estimate the 6.5% State/GLC band.
-const CIVIL_COLLECTION_FACTOR = 1.0153;
-
 // Returns {instalment, rate, rateLabel} for one product variant.
-// variant: 'awam-persekutuan' | 'awam-negeri' | 'pesara' | 'swasta'
+// variant: 'awam' | 'pesara' | 'swasta'
 function rhbInstalment(variant, amount, tenureYears){
   const months = Math.round(tenureYears*12);
-  if (variant === 'awam-persekutuan'){
+  if (variant === 'awam'){
     return {instalment: civilTableInstalment(amount, tenureYears), rate: 5.00,
       rateLabel: '5.00% p.a. (SBR ' + RHB_SBR.toFixed(2) + '% + 2.25%)'};
-  }
-  if (variant === 'awam-negeri'){
-    const m = rhbAnnuity(amount, 6.5, months) * CIVIL_COLLECTION_FACTOR;
-    return {instalment: Math.ceil(m*100)/100, rate: 6.50, rateLabel: '6.50% p.a.'};
   }
   if (variant === 'pesara'){
     return {instalment: Math.ceil(rhbAnnuity(amount, 7.15, months)), rate: 7.15, rateLabel: '7.15% p.a.'};

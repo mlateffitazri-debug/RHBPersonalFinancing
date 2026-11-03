@@ -468,24 +468,13 @@
             <p data-i18n="emp_persekutuan_desc">Kementerian, jabatan &amp; agensi persekutuan</p>
             <span class="rate-tag">5.00% p.a.</span>
           </div>
-          <div class="option-card" data-val="negeri" onclick="selectEmployer('negeri')">
-            <h3 data-i18n="emp_negeri_title">Kerajaan Negeri / GLC Terpilih</h3>
-            <p data-i18n="emp_negeri_desc">Kakitangan kerajaan negeri, badan berkanun atau GLC terpilih</p>
-            <span class="rate-tag">6.50% p.a.</span>
+          <div class="option-card" data-val="glc" onclick="selectEmployer('glc')">
+            <h3 data-i18n="emp_glc_title">GLC / Badan Berkanun</h3>
+            <p data-i18n="emp_glc_desc">Syarikat berkaitan kerajaan &amp; badan berkanun terpilih</p>
+            <span class="rate-tag">5.00% p.a.</span>
           </div>
         </div>
 
-        <div class="option-group-label" style="margin-top:18px;" data-i18n="s1a_k_channel">Saluran potongan gaji</div>
-        <div class="option-cards cols-2" id="channelCards">
-          <div class="option-card" data-val="ag" onclick="selectChannel('ag')">
-            <h3 data-i18n="ch_ag_title">AG (Akauntan Negara)</h3>
-            <p data-i18n="ch_ag_desc">Potongan terus oleh AG melalui IDSB — untuk yang tidak buat pinjaman melalui Angkasa</p>
-          </div>
-          <div class="option-card" data-val="angkasa" onclick="selectChannel('angkasa')">
-            <h3 data-i18n="ch_angkasa_title">Biro Angkasa (BPA)</h3>
-            <p data-i18n="ch_angkasa_desc">Potongan gaji melalui Biro Perkhidmatan Angkasa</p>
-          </div>
-        </div>
       </div>
 
       <div id="pesaraDetail">
@@ -992,17 +981,12 @@ const I18N = {
     btn_back: "Kembali",
     btn_continue: "Teruskan",
     s1a_k_question: "Butiran majikan anda",
-    s1a_k_help: "Kadar keuntungan bergantung pada jenis majikan, manakala syarat kelayakan bergantung pada saluran potongan gaji.",
+    s1a_k_help: "Semua penjawat awam menikmati kadar 5.00% p.a. Saluran potongan gaji (IDSB / Angkasa) akan ditentukan oleh wakil RHB.",
     s1a_k_employer: "Jenis majikan",
-    s1a_k_channel: "Saluran potongan gaji",
-    emp_persekutuan_title: "Kerajaan Persekutuan",
-    emp_persekutuan_desc: "Kementerian, jabatan &amp; agensi persekutuan",
-    emp_negeri_title: "Kerajaan Negeri / GLC Terpilih",
-    emp_negeri_desc: "Kakitangan kerajaan negeri, badan berkanun atau GLC terpilih",
-    ch_ag_title: "AG (Akauntan Negara)",
-    ch_ag_desc: "Potongan terus oleh AG melalui IDSB — untuk yang tidak buat pinjaman melalui Angkasa",
-    ch_angkasa_title: "Biro Angkasa (BPA)",
-    ch_angkasa_desc: "Potongan gaji melalui Biro Perkhidmatan Angkasa",
+    emp_persekutuan_title: "Kerajaan Persekutuan / Negeri",
+    emp_persekutuan_desc: "Kementerian, jabatan &amp; agensi kerajaan persekutuan atau negeri",
+    emp_glc_title: "GLC / Badan Berkanun",
+    emp_glc_desc: "Syarikat berkaitan kerajaan &amp; badan berkanun terpilih",
     s1a_p_question: "Jenis pencen anda",
     s1a_p_help: "Pembiayaan untuk pesara kerajaan dan tentera yang menerima pencen bulanan.",
     pen_perkhidmatan_title: "Pencen Perkhidmatan",
@@ -1011,7 +995,7 @@ const I18N = {
     pen_terbitan_desc: "Pencen yang diterima waris pesara",
     pen_hilangupaya_title: "Pencen Hilang Upaya",
     pen_hilangupaya_desc: "Pencen kerana hilang upaya",
-    warn_select_kerajaan: "Sila pilih jenis majikan dan saluran potongan gaji anda.",
+    warn_select_kerajaan: "Sila pilih jenis majikan anda.",
     warn_select_pension: "Sila pilih jenis pencen anda.",
     warn_pension_hilangupaya: "Pencen Hilang Upaya tidak layak untuk Personal Financing-i Pesara. Anda masih boleh memohon Kad Kredit RHB.",
     s2_eyebrow: "Soalan 2 daripada 4",
@@ -1216,17 +1200,12 @@ const I18N = {
     btn_back: "Back",
     btn_continue: "Continue",
     s1a_k_question: "Your employer details",
-    s1a_k_help: "The profit rate depends on your employer type, while eligibility terms depend on your salary deduction channel.",
+    s1a_k_help: "All civil servants enjoy a 5.00% p.a. rate. The salary deduction channel (IDSB / Angkasa) will be set by your RHB representative.",
     s1a_k_employer: "Employer type",
-    s1a_k_channel: "Salary deduction channel",
-    emp_persekutuan_title: "Federal Government",
-    emp_persekutuan_desc: "Federal ministries, departments &amp; agencies",
-    emp_negeri_title: "State Government / Selected GLC",
-    emp_negeri_desc: "State government, statutory body or selected GLC staff",
-    ch_ag_title: "AG (Accountant General)",
-    ch_ag_desc: "Direct deduction by the AG via IDSB — for staff without an Angkasa financing",
-    ch_angkasa_title: "Biro Angkasa (BPA)",
-    ch_angkasa_desc: "Salary deduction through Biro Perkhidmatan Angkasa",
+    emp_persekutuan_title: "Federal / State Government",
+    emp_persekutuan_desc: "Federal or state government ministries, departments &amp; agencies",
+    emp_glc_title: "GLC / Statutory Body",
+    emp_glc_desc: "Selected government-linked companies &amp; statutory bodies",
     s1a_p_question: "Your pension type",
     s1a_p_help: "Financing for government and armed forces pensioners who receive a monthly pension.",
     pen_perkhidmatan_title: "Service Pension",
@@ -1235,7 +1214,7 @@ const I18N = {
     pen_terbitan_desc: "Pension received by a pensioner's dependants",
     pen_hilangupaya_title: "Disability Pension",
     pen_hilangupaya_desc: "Pension due to disability",
-    warn_select_kerajaan: "Please choose your employer type and salary deduction channel.",
+    warn_select_kerajaan: "Please choose your employer type.",
     warn_select_pension: "Please choose your pension type.",
     warn_pension_hilangupaya: "Disability Pension is not eligible for Personal Financing-i for Pensioners. You can still apply for an RHB Credit Card.",
     s2_eyebrow: "Question 2 of 4",
@@ -1466,7 +1445,7 @@ function escapeHtml(s){
 function freshState(){
   return {
     sector: null, product: null,
-    employer: null, channel: null, pensionType: null,
+    employer: null, pensionType: null,
     debtConsolidation: false,
     grossIncome: 0,
     dsrPercent: null, dsrPass: null,
@@ -1487,15 +1466,16 @@ const SECTOR_LOAN_DATA = {
     minTenure: 2, maxTenure: 10,
     minAge: 18, maxEndAge: 58,
     minIncome: 2000,
-    paymentMethod: {ms:'Potongan gaji (AG / Angkasa)', en:'Salary deduction (AG / Angkasa)'},
+    paymentMethod: {ms:'Potongan gaji (IDSB / Angkasa)', en:'Salary deduction (IDSB / Angkasa)'},
     eligibility: {
       ms: [
         'Kakitangan tetap Kerajaan Persekutuan, Kerajaan Negeri, badan berkanun atau GLC terpilih yang bergaji pokok',
         'Umur minimum 18 tahun, dan tidak melebihi 58 tahun semasa tamat pembiayaan',
         'Pendapatan minimum RM2,000 sebulan',
-        'Pembiayaan RM2,000 (AG) / RM3,000 (Angkasa) sehingga RM200,000; gaji ≥ RM10,000 sehingga RM250,000; gaji ≥ RM15,000 sehingga RM300,000',
+        'Kadar keuntungan 5.00% p.a. untuk semua penjawat awam (kerajaan, GLC dan badan berkanun)',
+        'Pembiayaan RM2,000 (IDSB) / RM3,000 (Angkasa) sehingga RM200,000; gaji ≥ RM10,000 sehingga RM250,000; gaji ≥ RM15,000 sehingga RM300,000',
         'Tempoh 2 hingga 10 tahun',
-        'Bayaran melalui potongan gaji — AG (melalui IDSB) atau Biro Angkasa',
+        'Bayaran melalui potongan gaji: kakitangan kerajaan melalui IDSB atau Angkasa (ditentukan oleh wakil RHB); GLC dan badan berkanun melalui Angkasa',
         'Kadar promosi memerlukan perlindungan takaful Group Credit Family Takaful (GCFT)',
         'Tiada penjamin atau cagaran diperlukan',
       ],
@@ -1503,9 +1483,10 @@ const SECTOR_LOAN_DATA = {
         'Permanent Federal Government, State Government, statutory body or selected GLC staff with a basic salary',
         'Minimum age 18, and not above 58 at the end of the financing tenure',
         'Minimum income of RM2,000 per month',
-        'Financing from RM2,000 (AG) / RM3,000 (Angkasa) up to RM200,000; salary ≥ RM10,000 up to RM250,000; salary ≥ RM15,000 up to RM300,000',
+        'Profit rate of 5.00% p.a. for all civil servants (government, GLC and statutory bodies)',
+        'Financing from RM2,000 (IDSB) / RM3,000 (Angkasa) up to RM200,000; salary ≥ RM10,000 up to RM250,000; salary ≥ RM15,000 up to RM300,000',
         'Tenure of 2 to 10 years',
-        'Payment via salary deduction — AG (via IDSB) or Biro Angkasa',
+        'Payment via salary deduction: government staff through IDSB or Angkasa (set by your RHB representative); GLC and statutory-body staff through Angkasa',
         'The promotional rate requires Group Credit Family Takaful (GCFT) coverage',
         'No guarantor or collateral required',
       ],
@@ -1513,7 +1494,7 @@ const SECTOR_LOAN_DATA = {
     docs: {
       ms: [
         'Salinan MyKad (depan & belakang)',
-        'Slip gaji terkini (AG: 1 bulan; Angkasa: 3 bulan)',
+        'Slip gaji terkini (IDSB: 1 bulan; Angkasa: 3 bulan)',
         'Surat Pengesahan Majikan (berkepala surat majikan)',
         'Salinan buku akaun / penyata bank RHB atau bank lain',
         'Penyata penebusan bank / institusi kewangan lain (jika ada)',
@@ -1523,7 +1504,7 @@ const SECTOR_LOAN_DATA = {
       ],
       en: [
         'Copy of MyKad (front & back)',
-        'Latest salary slip (AG: 1 month; Angkasa: 3 months)',
+        'Latest salary slip (IDSB: 1 month; Angkasa: 3 months)',
         'Employer Confirmation Letter (on employer letterhead)',
         'Copy of RHB or other bank account passbook / statement',
         'Redemption statement from other banks / financial institutions (if any)',
@@ -1643,23 +1624,30 @@ function kerajaanMaxAmount(grossMonthly){
 }
 function amountRange(sector, grossMonthly){
   if (sector === 'kerajaan'){
-    return {min: state.channel === 'angkasa' ? 3000 : 2000, max: kerajaanMaxAmount(grossMonthly)};
+    return {min: deductionChannel() === 'angkasa' ? 3000 : 2000, max: kerajaanMaxAmount(grossMonthly)};
   }
   const d = SECTOR_LOAN_DATA[sector];
   return {min: d.minAmount, max: d.maxAmount};
+}
+
+// Salary deduction channel follows the employer (RHB banker's rule): GLC and
+// statutory-body staff always go through Angkasa; government staff are treated
+// as AG/IDSB here, and the banker confirms the final channel.
+function deductionChannel(){
+  return state.employer === 'glc' ? 'angkasa' : 'ag';
 }
 
 // DSR caps. AG and Angkasa figures come from the RHB sales notes (AG up to 85%,
 // Angkasa 60%). Pesara and Swasta have no published cap, so they use the 70%
 // default of the original internal engine — confirm with RHB and adjust here.
 function dsrCapFor(sector){
-  if (sector === 'kerajaan') return state.channel === 'angkasa' ? 60 : 85;
+  if (sector === 'kerajaan') return deductionChannel() === 'angkasa' ? 60 : 85;
   return 70;
 }
 
 // Maps the selection to the rate/instalment variant in rhb-rates.js.
 function rateVariant(){
-  if (state.sector === 'kerajaan') return state.employer === 'negeri' ? 'awam-negeri' : 'awam-persekutuan';
+  if (state.sector === 'kerajaan') return 'awam';
   return state.sector;
 }
 
@@ -1682,9 +1670,8 @@ function sectorLabel(){
   if (!d) return '-';
   let label = d.label[lang];
   if (state.sector === 'kerajaan' && state.employer){
-    const emp = state.employer === 'negeri' ? T().emp_negeri_title : T().emp_persekutuan_title;
-    const ch = state.channel === 'angkasa' ? 'Angkasa' : 'AG';
-    label += ` (${emp} · ${ch})`;
+    const emp = state.employer === 'glc' ? T().emp_glc_title : T().emp_persekutuan_title;
+    label += ` (${emp})`;
   }
   if (state.sector === 'pesara' && state.pensionType){
     label += ` (${T()['pen_' + state.pensionType + '_title']})`;
@@ -1757,7 +1744,7 @@ function updateProgress(){
 
 function selectSector(val){
   if (state.sector !== val){
-    state.employer = null; state.channel = null; state.pensionType = null;
+    state.employer = null; state.pensionType = null;
   }
   state.sector = val;
   document.querySelectorAll('#sectorCards .photo-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===val));
@@ -1777,18 +1764,16 @@ function renderSectorDetail(){
   document.getElementById('kerajaanIntro').style.display = isK ? 'block' : 'none';
   document.getElementById('pesaraIntro').style.display = isK ? 'none' : 'block';
   document.querySelectorAll('#employerCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.employer));
-  document.querySelectorAll('#channelCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.channel));
   document.querySelectorAll('#pensionCards .option-card').forEach(c=>c.classList.toggle('selected', c.dataset.val===state.pensionType));
   document.getElementById('s1aWarning').innerHTML = state.pensionType === 'hilangupaya'
     ? `<div class="warn-box">${T().warn_pension_hilangupaya}</div>` : '';
 }
 function selectEmployer(v){ state.employer = v; renderSectorDetail(); }
-function selectChannel(v){ state.channel = v; renderSectorDetail(); }
 function selectPensionType(v){ state.pensionType = v; renderSectorDetail(); }
 
 function confirmSectorDetail(){
   const warn = document.getElementById('s1aWarning');
-  if (state.sector === 'kerajaan' && (!state.employer || !state.channel)){
+  if (state.sector === 'kerajaan' && !state.employer){
     warn.innerHTML = `<div class="warn-box">${T().warn_select_kerajaan}</div>`;
     return;
   }
@@ -1878,7 +1863,7 @@ function applySectorLabels(){
   if (state.sector){
     const d = SECTOR_LOAN_DATA[state.sector];
     document.getElementById('loanAmountHelp').textContent = state.sector === 'kerajaan'
-      ? t.loan_amount_help_kerajaan(fmtRM0(state.channel === 'angkasa' ? 3000 : 2000))
+      ? t.loan_amount_help_kerajaan(fmtRM0(deductionChannel() === 'angkasa' ? 3000 : 2000))
       : t.loan_amount_help(fmtRM0(d.minAmount), fmtRM0(d.maxAmount));
     document.getElementById('loanTenureHelp').textContent = t.loan_tenure_help(d.minTenure, d.maxTenure);
     const tenure = document.getElementById('q_loanTenure');
@@ -2119,12 +2104,9 @@ function rateNote(){
   const common = lang==='ms'
     ? 'Kadar promosi tertakluk kepada pengambilan takaful GCFT/PSS dan kempen sehingga 31 Disember 2026. Kadar berubah (reducing balance), tertakluk kepada SBR semasa. Duti setem 0.5% daripada amaun pembiayaan.'
     : 'Promotional rates require GCFT/PSS takaful take-up, campaign until 31 December 2026. Variable rate (reducing balance), subject to the prevailing SBR. Stamp duty of 0.5% of the financing amount.';
-  if (v === 'awam-persekutuan') return (lang==='ms'
+  if (v === 'awam') return (lang==='ms'
     ? 'Ansuran ialah jumlah potongan gaji bulanan daripada jadual rasmi RHB (termasuk fi kutipan 1.5%). '
     : 'The instalment is the monthly salary deduction from RHB\'s official table (including the 1.5% collection fee). ') + common;
-  if (v === 'awam-negeri') return (lang==='ms'
-    ? 'Ansuran ialah anggaran pada kadar 6.50% termasuk fi kutipan 1.5% (tiada jadual rasmi diterbitkan). '
-    : 'The instalment is an estimate at 6.50% including the 1.5% collection fee (no official table published). ') + common;
   return common;
 }
 
@@ -2204,7 +2186,6 @@ function buildScheduleHref(){
   p.set('restore', '1');
   p.set('sector', state.sector);
   if (state.employer) p.set('emp', state.employer);
-  if (state.channel) p.set('ch', state.channel);
   if (state.pensionType) p.set('pt', state.pensionType);
   p.set('debt', state.debtConsolidation ? '1' : '0');
   const g = id => document.getElementById(id)?.value || '';
@@ -2512,8 +2493,8 @@ function restoreFromQuery(){
 
   state.sector = sector;
   state.product = 'pinjaman';
-  state.employer = params.get('emp');
-  state.channel = params.get('ch');
+  // Older links may still carry emp=negeri from the previous employer split.
+  state.employer = params.get('emp') === 'negeri' ? 'glc' : params.get('emp');
   state.pensionType = params.get('pt');
   state.debtConsolidation = params.get('debt') === '1';
   document.querySelectorAll('#debtConsolCards .option-card').forEach(c =>
