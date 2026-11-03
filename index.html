@@ -1058,6 +1058,10 @@ const I18N = {
     warn_tenure_range: (min,max)=> min===max ? `Berdasarkan umur anda, tempoh pembiayaan mestilah ${min} tahun.` : `Berdasarkan umur anda, tempoh pembiayaan mestilah antara ${min} dan ${max} tahun.`,
     warn_epf_too_high: "Potongan statutori tidak boleh sama atau melebihi jumlah pendapatan. Sila semak semula.",
     dsr_status_prepass: "PrePass — Layak Untuk Semakan Lanjut",
+    dsr_status_conditional: "Layak Bersyarat — Bergantung Pada Saluran Potongan",
+    dsr_conditional_note: (dsr,soft,hard)=>`DSR anggaran anda (${dsr}%) melebihi had Angkasa (${soft}%) tetapi masih dalam had IDSB (${hard}%). Anda masih boleh memohon — wakil RHB akan menyemak sama ada potongan melalui IDSB boleh digunakan untuk anda.`,
+    wa_conditional_line: (dsr)=>`
+Status: Layak bersyarat (DSR ${dsr}%) — perlu semakan IDSB`,
     dsr_status_prefail: "PreFail — Tidak Melepasi Saringan Kredit untuk Pembiayaan",
     stat_ndi: "Net Disposable Income (NDI)",
     stat_dsr_pct: "DSR",
@@ -1177,7 +1181,7 @@ const I18N = {
     wa_message: (product,name,profession,phone,email,sector,debtConsolLabel)=>
       `Assalamualaikum/Salam, saya berminat memohon *${product}*.\nDengan ini saya bersetuju pihak RHB untuk proses permohonan saya.\n\nNama: ${name}\nProfesion: ${profession}\nNo. Telefon: ${phone}\nEmel: ${email}\nSektor: ${sector}\nPenyatuan Hutang: ${debtConsolLabel}`,
     lead_summary_name: "Nama", lead_summary_profession: "Profesion", lead_summary_phone: "No. Telefon",
-    lead_summary_email: "Emel", lead_summary_product: "Produk", lead_summary_sector: "Sektor",
+    lead_summary_email: "Emel", lead_summary_product: "Produk", lead_summary_sector: "Sektor", lead_summary_status: "Status",
     lead_sector_confirm: (sector)=>`Sektor: ${sector}`,
     chip_yes: "Ya", chip_no: "Tidak",
     credit_card_product: "Kad Kredit RHB",
@@ -1277,6 +1281,10 @@ const I18N = {
     warn_tenure_range: (min,max)=> min===max ? `Based on your age, the financing tenure must be ${min} years.` : `Based on your age, the financing tenure must be between ${min} and ${max} years.`,
     warn_epf_too_high: "Statutory deductions cannot equal or exceed your total income. Please check again.",
     dsr_status_prepass: "PrePass — Eligible For Further Review",
+    dsr_status_conditional: "Conditionally Eligible — Depends on Deduction Channel",
+    dsr_conditional_note: (dsr,soft,hard)=>`Your estimated DSR (${dsr}%) is above the Angkasa limit (${soft}%) but within the IDSB limit (${hard}%). You can still apply — an RHB representative will check whether IDSB deduction is available to you.`,
+    wa_conditional_line: (dsr)=>`
+Status: Conditionally eligible (DSR ${dsr}%) — IDSB check needed`,
     dsr_status_prefail: "PreFail — Did Not Pass the Financing Credit Screening",
     stat_ndi: "Net Disposable Income (NDI)",
     stat_dsr_pct: "DSR",
@@ -1396,7 +1404,7 @@ const I18N = {
     wa_message: (product,name,profession,phone,email,sector,debtConsolLabel)=>
       `Hello, I'm interested in applying for *${product}*.\nI hereby consent to RHB processing my application.\n\nName: ${name}\nProfession: ${profession}\nPhone No.: ${phone}\nEmail: ${email}\nSector: ${sector}\nDebt Consolidation: ${debtConsolLabel}`,
     lead_summary_name: "Name", lead_summary_profession: "Profession", lead_summary_phone: "Phone No.",
-    lead_summary_email: "Email", lead_summary_product: "Product", lead_summary_sector: "Sector",
+    lead_summary_email: "Email", lead_summary_product: "Product", lead_summary_sector: "Sector", lead_summary_status: "Status",
     lead_sector_confirm: (sector)=>`Sector: ${sector}`,
     chip_yes: "Yes", chip_no: "No",
     credit_card_product: "RHB Credit Card",
@@ -1643,6 +1651,14 @@ function deductionChannel(){
 function dsrCapFor(sector){
   if (sector === 'kerajaan') return deductionChannel() === 'angkasa' ? 60 : 85;
   return 70;
+}
+
+// Government staff may end up on Angkasa (60%) instead of IDSB (85%), so a DSR
+// between the two is "conditional": they can still apply, and the banker checks
+// whether IDSB is available. Returns null when there is no conditional band.
+function dsrSoftCapFor(sector){
+  if (sector === 'kerajaan' && deductionChannel() === 'ag') return 60;
+  return null;
 }
 
 // Maps the selection to the rate/instalment variant in rhb-rates.js.
@@ -1979,6 +1995,7 @@ function checkDSRNDI(){
   const ndi = grossBase + overlapRHB + tabungHaji - thisInstalment - ccrisExternal - payslipDeduction;
   const dsr = ((payslipDeduction + thisInstalment + ccrisExternal) - epf - overlapRHB - tabungHaji) / (grossBase - epf);
   const dsrCap = dsrCapFor(sector);
+  const dsrSoftCap = dsrSoftCapFor(sector);
 
   const effectiveHousehold = dependents + 2; // self + spouse-placeholder + dependents
   const thr = NDI_FLOOR[area];
@@ -2027,7 +2044,9 @@ function checkDSRNDI(){
   state.dsrCap = dsrCap;
   state.ndi = round2(ndi);
   state.dsrPercent = round2(dsr*100);
-  state.dsrStatus = reasons.length ? 'PreFail' : 'PrePass';
+  const conditional = !reasons.length && dsrSoftCap !== null && dsr*100 > dsrSoftCap;
+  state.dsrSoftCap = dsrSoftCap;
+  state.dsrStatus = reasons.length ? 'PreFail' : (conditional ? 'Conditional' : 'PrePass');
   state.dsrReasons = reasons;
   state.dsrPass = reasons.length === 0;
 
@@ -2117,9 +2136,11 @@ function renderLoanResult(){
   document.getElementById('resultValue').textContent = data.productName[lang];
   document.getElementById('btnEditResult').textContent = T().btn_edit_dsr;
 
+  // Government staff see both limits: Angkasa (soft) and IDSB (hard).
+  const capLabel = state.dsrSoftCap ? `${state.dsrSoftCap}–${state.dsrCap}` : state.dsrCap;
   document.getElementById('resultSub').textContent = state.debtConsolidation
-    ? T().result_sub_debt_consol(state.dsrPercent, state.dsrCap)
-    : T().result_sub_loan(state.dsrPercent, state.dsrCap);
+    ? T().result_sub_debt_consol(state.dsrPercent, capLabel)
+    : T().result_sub_loan(state.dsrPercent, capLabel);
   const ar = state.amountRange;
   document.getElementById('resultStatGrid').innerHTML = `
     <div class="stat"><div class="stat-label">${T().stat_instalment}</div><div class="stat-value">${fmtRM(state.newInstalment)}</div></div>
@@ -2131,15 +2152,20 @@ function renderLoanResult(){
 
   // NDI/DSR panel: PrePass/PreFail badge + CCRIS/CTOS disclaimer, shown before
   // the product details so the applicant understands their position first.
-  const isPass = state.dsrStatus === 'PrePass';
+  const isPass = state.dsrStatus !== 'PreFail';
+  const isConditional = state.dsrStatus === 'Conditional';
+  const boxStyle = isConditional ? 'background:#fff7e6;border-color:#f3d39b;' : (isPass ? '' : 'background:var(--warnbg);border-color:#f2c4b8;');
+  const statusColor = isConditional ? '#a15c00' : (isPass ? 'var(--accent2)' : 'var(--danger)');
+  const statusText = isConditional ? T().dsr_status_conditional : (isPass ? T().dsr_status_prepass : T().dsr_status_prefail);
   document.getElementById('ndiPanel').innerHTML = `
-    <div class="info-box" style="${isPass ? '' : 'background:var(--warnbg);border-color:#f2c4b8;'}">
+    <div class="info-box" style="${boxStyle}">
       <div class="pass-row">
-        <div style="flex:1;font-weight:800;font-size:.95rem;margin-bottom:6px;color:${isPass ? 'var(--accent2)' : 'var(--danger)'};">
-          ${isPass ? T().dsr_status_prepass : T().dsr_status_prefail}
+        <div style="flex:1;font-weight:800;font-size:.95rem;margin-bottom:6px;color:${statusColor};">
+          ${statusText}
         </div>
-        ${isPass ? '<img src="assets/fath/thumbsup.webp" alt="" class="pass-figure" width="395" height="360">' : ''}
+        ${state.dsrStatus === 'PrePass' ? '<img src="assets/fath/thumbsup.webp" alt="" class="pass-figure" width="395" height="360">' : ''}
       </div>
+      ${isConditional ? `<p style="margin:0 0 8px;color:#6b4a12;">${T().dsr_conditional_note(state.dsrPercent, state.dsrSoftCap, state.dsrCap)}</p>` : ''}
       <div class="result-item"><span class="result-label">${T().stat_ndi}</span><span class="result-value">${fmtRM(state.ndi)}</span></div>
       <div class="result-item"><span class="result-label">${T().stat_dsr_pct}</span><span class="result-value">${state.dsrPercent}%</span></div>
       ${state.dsrReasons.length ? `<ul class="doc-list" style="margin-top:10px;">${renderReasonCodes(state.dsrReasons).map(r=>`<li>${r}</li>`).join('')}</ul>` : ''}
@@ -2315,6 +2341,8 @@ function validateApplication(){
   const product = productLabel();
   const debtConsolLabel = (state.resultMode === 'pinjaman' && state.debtConsolidation) ? T().chip_yes : T().chip_no;
   state.waMessage = T().wa_message(product, name, position, phoneRaw, email, sectorLabel(), debtConsolLabel);
+  const conditional = state.resultMode === 'pinjaman' && state.dsrStatus === 'Conditional';
+  if (conditional) state.waMessage += T().wa_conditional_line(state.dsrPercent);
 
   document.getElementById('leadSummaryBox').innerHTML = renderRows([
     [T().lead_summary_name, name],
@@ -2323,6 +2351,7 @@ function validateApplication(){
     [T().lead_summary_email, email],
     [T().lead_summary_sector, sectorLabel()],
     [T().lead_summary_product, product],
+    ...(conditional ? [[T().lead_summary_status, T().dsr_status_conditional]] : []),
   ]);
 
   setupUploadStep();
